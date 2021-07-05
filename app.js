@@ -57,3 +57,54 @@ Users.remove({_id:'60d01af2a447c346a8d5dda0'}, function(error,output){
     console.log('--- deleted ---');
 });
 */
+
+
+
+const redis = require("redis");
+const express = require('express');
+const router = express.Router();
+
+
+const redisHost = "172.21.75.150";
+const client = redis.createClient({
+    host : redisHost,
+    port : 6379
+
+});
+
+client.on("error", (err) => {
+  console.error(err);
+});
+
+client.on("ready", () => {
+  console.log("Redis is ready");
+}); 
+
+client.get("name" , (err , result) => { 
+    console.log(result) 
+}); 
+
+client.get("age" , (err , result) => { 
+    console.log(result) 
+}); 
+
+/*client.hmset('user1', {
+    id: 'kamil',
+    age: 25
+}, redis.print);*/
+
+client.hget("user1", "id", (err, result) =>{
+    console.log(result);
+});
+
+client.hgetall("user1", (err, result) =>{
+    console.log(result);
+});
+
+
+/*router.get('/', function(req, res, next) { 
+    client.get("name" , (err , result) => { 
+        console.log(result) 
+    }); 
+    res.render('index', { title: 'Express' }); 
+});*/
